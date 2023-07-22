@@ -1,8 +1,8 @@
-FROM alpine:stable AS lockrun
+FROM alpine:latest AS lockrun
 RUN apk add gcc musl-dev \
-    ; cd /tmp \
-    ; wget -O lockrun.c http://unixwiz.net/tools/lockrun.c \
-    ; gcc lockrun.c -o lockrun
+    # && wget -O lockrun.c http://unixwiz.net/tools/lockrun.c \
+    && wget -O lockrun.c https://github.com/libreofficedocker/lockrun.c/raw/main/lockrun.c \
+    && gcc lockrun.c -o lockrun
 
-FROM alpine:stable
-COPY --from=lockrun /tmp/lockrun /usr/bin/lockrun
+FROM alpine:latest
+COPY --from=lockrun /lockrun /usr/bin/lockrun
